@@ -1,18 +1,14 @@
 import { promises as fs } from "fs";
 
-import {
-  parseCsvFile,
-  computeProofs,
-  // removeSplitClaimFiles,
-  splitClaimsAndSaveToFolder,
-} from "./src/ts";
+import { parseCsvFile, computeProofs, splitClaimsAndSaveToFolder } from "../ts";
 
 export interface CowDeploymentArgs {
   claims: string;
   settings: string;
 }
 
-const outputFolder = "./mock-airdorp-data";
+const inputFolder = "./input-folder/allocations.csv";
+const outputFolder = "./mock-airdrop-data";
 
 async function removeSplitClaimFiles(path: string) {
   await fs.rm(`${path}/mapping.json`, { recursive: true, force: true });
@@ -21,7 +17,7 @@ async function removeSplitClaimFiles(path: string) {
 
 async function processAllocationsCSV() {
   console.log("Processing input files...");
-  const claims = await parseCsvFile("./mock-airdrop-data/allocations.csv");
+  const claims = await parseCsvFile(inputFolder);
 
   console.log("Generating Merkle proofs...");
   const { merkleRoot, claims: claimsWithProof } = computeProofs(claims);
