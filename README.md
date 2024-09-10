@@ -2,6 +2,13 @@
 
 Use this project to deploy your airdrop contracts.
 
+## Dependencies
+
+- hardhat ^2.22.10
+- yarn
+
+## Usage
+
 1. Install modules
 
 ```shell
@@ -20,18 +27,19 @@ yarn preprocess
 
 In /ignition/modules/MerkleDistributor.ts:
 
-- set merkleRoot to the merkeRoot generated in /mock-aridrop-data/merkleRoot.json
-- set tokenAddress to the contract address of token to be used
+- set merkleRoot to the merkeRoot generated in /mock-airdrop-data/merkleRoot.json
+- set tokenAddress to the contract address in the network you want to deploy of the token to be used
 
 5. Compile contract
 
 ```shell
-yarn compile
+npx hardhat compile
 ```
 
 6. Deploy contract
 
 - check needed .env keys in /hardhat.config.ts and declare them
+- change /hardhat.config.ts to support the network you want to deploy
 
 ```shell
 npx hardhat ignition deploy ignition/modules/MerkleDistributor.ts --network <network> --deployment-id <optional_id_of_your_choice>
