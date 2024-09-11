@@ -75,11 +75,6 @@ export function writeCsv(claims: Claim[]): Writable {
     columns: headers,
   });
   for (const [user, userClaims] of Object.entries(claimsByAccount)) {
-    // if (userClaims.length != new Set(userClaims.map(({ type }) => type)).size) {
-    //   throw new Error(
-    //     `Account ${user} has more than one claim for the same type. This case is currently not implemented.`,
-    //   );
-    //}
     const amountByClaimType = Object.keys(claimLegend)
       .map((key) => [key, userClaims[0]?.claimableAmount.toString()])
       .filter(([, value]) => value !== undefined);
