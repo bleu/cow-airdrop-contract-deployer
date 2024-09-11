@@ -51,14 +51,18 @@ npx hardhat compile
 
 6. Deploy contract
 
-- check needed .env keys in /hardhat.config.ts and declare them
+- Declare your network RPC URL and private key in the .env file
 - change /hardhat.config.ts to support the network you want to deploy
 
 ```shell
-npx hardhat ignition deploy ignition/modules/MerkleDistributor.ts --network <network> --deployment-id <optional_id_of_your_choice>
+npx hardhat ignition deploy ignition/modules/MerkleDistributor.ts --deployment-id <id_of_your_choice>
 ```
 
+The parameter `<id_of_your_choice>` is optional and you can use to make it easier to verify the contract later
+
 7. Verify contract
+
+Declare your Etherscan API key in the .env file
 
 ```shell
 npx hardhat ignition verify <optional_id_of_your_choice>
