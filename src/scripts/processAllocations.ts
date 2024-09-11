@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-
+import dotenv from "dotenv";
 import { parseCsvFile, computeProofs, splitClaimsAndSaveToFolder } from "../ts";
 
 export interface CowDeploymentArgs {
@@ -7,7 +7,9 @@ export interface CowDeploymentArgs {
   settings: string;
 }
 
-const inputFolder = "./input-folder/allocations.csv";
+dotenv.config();
+const inputCsvFile = process.env.INPUT_CSV_FILE;
+const inputPath = `./input-folder/${inputCsvFile}`;
 const outputFolder = "./mock-airdrop-data";
 
 async function removeSplitClaimFiles(path: string) {
@@ -17,7 +19,7 @@ async function removeSplitClaimFiles(path: string) {
 
 async function processAllocationsCSV() {
   console.log("Processing input files...");
-  const claims = await parseCsvFile(inputFolder);
+  const claims = await parseCsvFile(inputPath);
 
   console.log("Input file processed. Generating Merkle proofs...");
   const { merkleRoot, claims: claimsWithProof } = computeProofs(claims);

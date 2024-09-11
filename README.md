@@ -21,7 +21,7 @@ After following the steps below, you should have a folder containing the folder 
 yarn install
 ```
 
-2. Move your "allocations.csv" file to /input-folder
+2. Move your input .csv file with airdrop allocations to /input-folder and fill the .env with its name
 
 The .csv must follow the pattern below:
 
