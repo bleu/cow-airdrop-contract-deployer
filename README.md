@@ -10,7 +10,6 @@ After following the steps below, you should have a folder containing the folder 
 
 ## Dependencies
 
-- hardhat ^2.22.10
 - yarn
 
 ## Usage
