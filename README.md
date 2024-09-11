@@ -6,7 +6,7 @@ In order to deploy the contract and build the needed off-chain data of your aird
 
 This contract uses the merkle proof system ([see more about here](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)) to check the claim legitimacy.
 
-After following the steps below, you should have a folder containing the folder that the CoW frontend application will nedd to access to verify the users possible claims (basically, the folder 'chunks' and the file 'mapping.json'). If your wish is that your contract should appear in the CoW Airdrop Hooks application, you should make your folder available through a http request (possibly using github, for example).
+After following the steps below, you should have a folder containing the folder that the CoW frontend application will nedd to access to verify the users possible claims (see example [here](https://github.com/bleu/cow-airdrop-contract-deployer/tree/example/mock-airdrop-data)). If your wish is that your contract should appear in the CoW Airdrop Hooks application, you should make your folder available through a http request (possibly using github, for example).
 
 ## Dependencies
 
@@ -15,41 +15,36 @@ After following the steps below, you should have a folder containing the folder 
 
 ## Usage
 
-1. Install modules
+**1.** Install modules
 
 ```shell
 yarn install
 ```
 
-2. Move your input .csv file with airdrop allocations to /input-folder and fill the .env with its name
+**2.** Move your input .csv file with airdrop allocations to /input-folder and fill the .env with its name
 
-The .csv must follow the pattern below:
+An example .csv file can be seen [here](https://github.com/bleu/cow-airdrop-contract-deployer/tree/example/input-folder)
 
-Account,Airdrop
-0x2ef2e49695f00fa835fb851c0575822f5f076a13,7915785761450277287136036
-0x9d94ef33e7f8087117f85b3ff7b1d8f27e4053d5,4967440035500163493933763
-0x445cc6c3d51eb0a63395a613a0960c7922bca0d6,2261774599509454379078923
+The output should look like [this](https://github.com/bleu/cow-airdrop-contract-deployer/tree/example/mock-airdrop-data) plus a merkleRoot.json file
 
-Where "Account" is the receiver address and "Airdrop" the token amount to claim.
-
-3. Process files. Convert the .csv into a folder containing the merkleProof, the chunks and the mapping.json file
+**3.** Process files. Convert the .csv into a folder containing the merkleProof, the chunks and the mapping.json file
 
 ```shell
 yarn preprocess
 ```
 
-4. Set up contract constructor variables in .env file:
+**4.** Set up contract constructor variables in .env file:
 
 - set MERKLE_ROOT to the merkleRoot generated in /mock-airdrop-data/merkleRoot.json
 - set TOKEN_ADDRESS to the contract address in the network you want to deploy of the token to be used
 
-5. Compile contract
+**5.** Compile contract
 
 ```shell
 npx hardhat compile
 ```
 
-6. Deploy contract
+**6.** Deploy contract
 
 - Declare your network RPC URL and private key in the .env file
 - change /hardhat.config.ts to support the network you want to deploy
@@ -60,7 +55,7 @@ npx hardhat ignition deploy ignition/modules/MerkleDistributor.ts --deployment-i
 
 The parameter `<id_of_your_choice>` is optional and you can use to make it easier to verify the contract later
 
-7. Verify contract
+**7.** Verify contract
 
 Declare your Etherscan API key in the .env file
 
