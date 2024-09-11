@@ -1,10 +1,10 @@
 # Airdrop Contract Deployer
 
-Use this project to deploy your ERC20Permit airdrop contracts. It follows the patttern interpreted by the CoW Aidrop Hooks dapp. To learn more about CoW Hooks, [click here](https://cow.fi/learn/cow-hooks-you-are-in-control).
+Use this project to deploy your ERC20 airdrop contracts. It follows the patttern interpreted by the CoW Aidrop Hooks dapp. To learn more about CoW Hooks, [click here](https://cow.fi/learn/cow-hooks-you-are-in-control) or take a look at the [Swap with hooks](https://dev.swap.cow.fi/#/1/swap/hooks/WETH?orderKind=sell) page.
 
 In order to deploy the contract and build the needed off-chain data of your airdrop, you will need to input a .csv file containing two columns: Address (the token receivers) and Airdrop (the amount of tokens of each one).
 
-This contract uses the merkle proof system ([see more about here](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)) to check the claim legitimacy.
+This contract uses the merkle proof system (see more about [here](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5)) to check the claim legitimacy.
 
 After following the steps below, you should have a folder containing the folder that the CoW frontend application will nedd to access to verify the users possible claims (see example [here](https://github.com/bleu/cow-airdrop-contract-deployer/tree/example/mock-airdrop-data)). If your wish is that your contract should appear in the CoW Airdrop Hooks application, you should make your folder available through a http request (possibly using github, for example).
 
@@ -61,3 +61,9 @@ Declare your Etherscan API key in the .env file
 ```shell
 npx hardhat ignition verify <optional_id_of_your_choice>
 ```
+
+## Integrate with CoW Aidrop Hooks
+
+If you want your airdrop to be claimable from CoW Airdrop Hooks, you can contact CoW community using [Discord](https://discord.gg/cowprotocol)!
+
+Just make sure you have the airdrop and token contract addresses for each network you deployed!
