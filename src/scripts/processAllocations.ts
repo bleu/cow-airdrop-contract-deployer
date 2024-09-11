@@ -19,7 +19,7 @@ async function processAllocationsCSV() {
   console.log("Processing input files...");
   const claims = await parseCsvFile(inputFolder);
 
-  console.log("Generating Merkle proofs...");
+  console.log("Input file processed. Generating Merkle proofs...");
   const { merkleRoot, claims: claimsWithProof } = computeProofs(claims);
 
   console.log("Clearing old files...");
