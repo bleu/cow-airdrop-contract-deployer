@@ -23,18 +23,25 @@ yarn install
 
 2. Move your "allocations.csv" file to /input-folder
 
-3. Process files
+The .csv must follow the pattern below:
+
+Account,Airdrop
+0x2ef2e49695f00fa835fb851c0575822f5f076a13,7915785761450277287136036
+0x9d94ef33e7f8087117f85b3ff7b1d8f27e4053d5,4967440035500163493933763
+0x445cc6c3d51eb0a63395a613a0960c7922bca0d6,2261774599509454379078923
+
+Where "Account" is the receiver address and "Airdrop" the token amount to claim.
+
+3. Process files. Convert the .csv into a folder containing the merkleProof, the chunks and the mapping.json file
 
 ```shell
 yarn preprocess
 ```
 
-4. Set up contract constructor variables
+4. Set up contract constructor variables in .env file:
 
-In /ignition/modules/MerkleDistributor.ts:
-
-- set merkleRoot to the merkeRoot generated in /mock-airdrop-data/merkleRoot.json
-- set tokenAddress to the contract address in the network you want to deploy of the token to be used
+- set MERKLE_ROOT to the merkleRoot generated in /mock-airdrop-data/merkleRoot.json
+- set TOKEN_ADDRESS to the contract address in the network you want to deploy of the token to be used
 
 5. Compile contract
 
