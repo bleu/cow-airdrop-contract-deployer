@@ -17,7 +17,6 @@ export type ClaimChunk = Record<string, StringifiedProvenClaim[]>;
 export type ClaimChunks = Record<FirstAddress, ClaimChunk>;
 
 export interface StringifiedProvenClaim {
-  type: string;
   amount: string;
   index: number;
   proof: string[];
@@ -29,13 +28,13 @@ export interface SplitClaims {
 }
 
 function* claimsBySortedAddress(
-  claims: ProvenClaim[],
+  claims: ProvenClaim[]
 ): Generator<[string, StringifiedProvenClaim[]], void, undefined> {
   if (claims.length === 0) {
     return;
   }
   const sortedClaims = [...claims].sort(({ account: lhs }, { account: rhs }) =>
-    lhs === rhs ? 0 : lhs.toLowerCase() < rhs.toLowerCase() ? -1 : 1,
+    lhs === rhs ? 0 : lhs.toLowerCase() < rhs.toLowerCase() ? -1 : 1
   );
 
   let currentUser: string = utils.getAddress(sortedClaims[0].account);
@@ -49,7 +48,6 @@ function* claimsBySortedAddress(
     currentClaims.push({
       proof: claim.proof,
       index: claim.index,
-      type: ClaimType[claim.type],
       amount: claim.claimableAmount.toString(),
     });
   }
@@ -58,7 +56,7 @@ function* claimsBySortedAddress(
 
 function* chunkify<T>(
   generator: Generator<T, void, undefined>,
-  chunkSize: number,
+  chunkSize: number
 ): Generator<T[], void, undefined> {
   let currentChunk: T[] = [];
   for (const output of generator) {
@@ -84,11 +82,11 @@ function* chunkify<T>(
  */
 export function* splitClaims(
   claims: ProvenClaim[],
-  desiredCohortSize = 70,
+  desiredCohortSize = 70
 ): Generator<[[FirstAddress, LastAddress], ClaimChunk], void, undefined> {
   for (const chunk of chunkify(
     claimsBySortedAddress(claims),
-    desiredCohortSize,
+    desiredCohortSize
   )) {
     const firstAddress: string = chunk[0][0].toLowerCase();
     const lastAddress: string = chunk[chunk.length - 1][0].toLowerCase();
@@ -103,7 +101,7 @@ export function* splitClaims(
 
 export async function splitClaimsAndSaveToFolder(
   claims: ProvenClaim[],
-  path: string,
+  path: string
 ) {
   const addressChunks: AddressChunks = {};
   const chunksDir = `${path}/chunks`;
@@ -113,7 +111,7 @@ export async function splitClaimsAndSaveToFolder(
     addressChunks[firstAddress] = lastAddress;
     await fs.writeFile(
       `${chunksDir}/${firstAddress.toLowerCase()}.json`,
-      JSON.stringify(chunk),
+      JSON.stringify(chunk)
     );
   }
   await fs.writeFile(`${path}/mapping.json`, JSON.stringify(addressChunks));

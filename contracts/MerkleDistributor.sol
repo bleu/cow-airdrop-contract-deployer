@@ -158,7 +158,7 @@ contract MerkleDistributor is IMerkleDistributor {
         require(MerkleProof.verify(merkleProof, merkleRoot, node), 'MerkleDistributor: Invalid proof.');
 
         // Mark it claimed and send the token.
-        //_setClaimed(index);
+        _setClaimed(index);
         require(IERC20(token).transfer(account, amount), 'MerkleDistributor: Transfer failed.');
 
         emit Claimed(index, account, amount);

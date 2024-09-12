@@ -1,5 +1,7 @@
 node_modules
 .env
+ignition/deployments
+mock-airdrop-data/merkleRoot.json
 
 # Hardhat files
 /cache

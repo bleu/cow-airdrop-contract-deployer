@@ -1,8 +1,10 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+import dotenv from "dotenv";
 
-const tokenAddress = "0x5Fe27BF718937CA1c4a7818D246Cd4e755C7470c";
-const merkleRoot =
-  "0xc1ebb0f7cb8ff2b044a59998ec3a98c3fffac39991a78de4aae44eeba9b72925";
+dotenv.config();
+
+const tokenAddress = process.env.TOKEN_ADDRESS;
+const merkleRoot = process.env.MERKLE_ROOT;
 
 const MerkleDistributorModule = buildModule("MerkleDModule", (m) => {
   const token = m.getParameter("token", tokenAddress);

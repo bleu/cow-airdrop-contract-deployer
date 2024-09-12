@@ -1,18 +1,16 @@
 import { promises as fs } from "fs";
-
-import {
-  parseCsvFile,
-  computeProofs,
-  // removeSplitClaimFiles,
-  splitClaimsAndSaveToFolder,
-} from "./src/ts";
+import dotenv from "dotenv";
+import { parseCsvFile, computeProofs, splitClaimsAndSaveToFolder } from "../ts";
 
 export interface CowDeploymentArgs {
   claims: string;
   settings: string;
 }
 
-const outputFolder = "./mock-airdorp-data";
+dotenv.config();
+const inputCsvFile = process.env.INPUT_CSV_FILE;
+const inputPath = `./input-folder/${inputCsvFile}`;
+const outputFolder = "./mock-airdrop-data";
 
 async function removeSplitClaimFiles(path: string) {
   await fs.rm(`${path}/mapping.json`, { recursive: true, force: true });
@@ -21,9 +19,9 @@ async function removeSplitClaimFiles(path: string) {
 
 async function processAllocationsCSV() {
   console.log("Processing input files...");
-  const claims = await parseCsvFile("./mock-airdrop-data/allocations.csv");
+  const claims = await parseCsvFile(inputPath);
 
-  console.log("Generating Merkle proofs...");
+  console.log("Input file processed. Generating Merkle proofs...");
   const { merkleRoot, claims: claimsWithProof } = computeProofs(claims);
 
   console.log("Clearing old files...");

@@ -13,7 +13,6 @@ export enum ClaimType {
 
 export interface Claim {
   account: string;
-  type: ClaimType;
   claimableAmount: BigNumber;
 }
 
@@ -32,20 +31,16 @@ export interface ExecutableClaim extends ProvenClaim {
   value?: BigNumber;
 }
 
-export const allClaimTypes: ClaimType[] = Object.keys(ClaimType)
-  .map((c) => Number(c))
-  .filter((c) => !isNaN(c));
-
 // Returns a collision-free identifier for the pair (claim, index).
 export function claimHash(
   index: number | BigNumber,
-  { account, type, claimableAmount }: Claim
+  { account, claimableAmount }: Claim
 ) {
   return Buffer.from(
     utils
       .solidityKeccak256(
-        ["uint256", "uint8", "address", "uint256"],
-        [index, type, account, claimableAmount]
+        ["uint256", "address", "uint256"],
+        [index, account, claimableAmount]
       )
       .substr(2),
     "hex"
@@ -56,7 +51,6 @@ export function claimHash(
 // expected to be.
 const claimInputEntries = [
   "index",
-  "type",
   "account",
   "claimableAmount",
   "claimedAmount",

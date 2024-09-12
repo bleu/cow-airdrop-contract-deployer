@@ -26,7 +26,7 @@ export async function parseCsv(stream: Readable): Promise<Claim[]> {
   for await (const line of parser) {
     if (!Object.keys(line).includes(accountLegend)) {
       throw new Error(
-        `Each CSV line must specify an account. Found: ${JSON.stringify(line)}`,
+        `Each CSV line must specify an account. Found: ${JSON.stringify(line)}`
       );
     }
     const account = utils.getAddress(line[accountLegend]);
@@ -37,7 +37,6 @@ export async function parseCsv(stream: Readable): Promise<Claim[]> {
         if (!claimableAmount.eq(0)) {
           result.push({
             account,
-            type,
             claimableAmount,
           });
         }
@@ -76,24 +75,12 @@ export function writeCsv(claims: Claim[]): Writable {
     columns: headers,
   });
   for (const [user, userClaims] of Object.entries(claimsByAccount)) {
-    if (userClaims.length != new Set(userClaims.map(({ type }) => type)).size) {
-      throw new Error(
-        `Account ${user} has more than one claim for the same type. This case is currently not implemented.`,
-      );
-    }
     const amountByClaimType = Object.keys(claimLegend)
-      .map((key) => [
-        key,
-        userClaims
-          .filter(
-            ({ type }) => type === claimLegend[key as keyof typeof claimLegend],
-          )[0]
-          ?.claimableAmount.toString(),
-      ])
+      .map((key) => [key, userClaims[0]?.claimableAmount.toString()])
       .filter(([, value]) => value !== undefined);
 
     stringifier.write(
-      Object.fromEntries(amountByClaimType.concat([[accountLegend, user]])),
+      Object.fromEntries(amountByClaimType.concat([[accountLegend, user]]))
     );
   }
 
@@ -104,9 +91,9 @@ export function writeCsv(claims: Claim[]): Writable {
 
 export async function writeCsvToFile(
   csvPath: string,
-  claims: Claim[],
+  claims: Claim[]
 ): Promise<void> {
   return new Promise((resolve) =>
-    writeCsv(claims).pipe(createWriteStream(csvPath)).on("end", resolve),
+    writeCsv(claims).pipe(createWriteStream(csvPath)).on("end", resolve)
   );
 }
